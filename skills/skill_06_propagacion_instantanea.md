@@ -1,37 +1,36 @@
 ---
 name: propagacion-instantanea
-description: Cada cambio al motor/core debe propagarse AL INSTANTE a todos los consumidores (GUI, memoria, verificador, frontend, papers, dataset). No dejar para después.
+description: Each change to the core/engine must propagate INSTANTLY to all consumers (UI, reports, validators, frontend, docs, datasets). Do not leave for later.
 type: feedback
-originSessionId: a0d34ba2-2a13-421f-b624-f0f12c1a7219
 ---
-# Propagación Instantánea
+# Instant Propagation
 
-## Aplica a: Cualquier sistema con múltiples capas que consumen datos de un core
+## Applies to: Any system with multiple layers that consume data from a core
 
-## Regla
-Cuando cambias el core/motor, estos se invalidan INMEDIATAMENTE:
-1. Frontend (tabs, gráficos, tablas)
-2. Memoria/reportes (secciones, valores, checks)
-3. Verificador independiente (debe ser consistente)
-4. Dataset ML (datos generados con motor viejo = contaminados)
-5. Papers (fórmulas, tablas de resultados)
-6. Tests (assertions con valores viejos)
+## Rule
+When you change the core/engine, these are IMMEDIATELY invalidated:
+1. Frontend (tabs, charts, tables)
+2. Reports/documents (sections, values, checks)
+3. Independent validators (must stay consistent)
+4. ML datasets (data generated with old engine = contaminated)
+5. Documentation (formulas, result tables)
+6. Tests (assertions with old values)
 
-## Protocolo
+## Protocol
 ```
-Cambio en motor
-  → Lista de afectados (grep imports, grep function name)
-  → Para CADA afectado: ¿muestra el dato nuevo? ¿usa el campo correcto?
-  → Actualizar AL INSTANTE (no "en la próxima sesión")
-  → Verificar que el pipeline completo funciona end-to-end
-```
-
-## Anti-patrón: el "Después lo actualizo"
-```
-MAL: "Motor corregido, frontend lo actualizo después"
-     → 5 sesiones después: frontend sigue mostrando datos viejos
-BIEN: Motor corregido → frontend + memoria + verificador en el MISMO commit
+Change in core
+  -> List affected consumers (grep imports, grep function name)
+  -> For EACH consumer: does it show the new data? Does it use the correct field?
+  -> Update INSTANTLY (not "in the next session")
+  -> Verify that the full pipeline works end-to-end
 ```
 
-**Why:** Motor con 30 correcciones pero frontend/memoria/papers desactualizados durante toda la sesión.
-**How to apply:** Cada cambio al core → propagar a TODOS los consumidores antes de commitear.
+## Anti-pattern: the "I'll Update It Later"
+```
+BAD: "Core fixed, I'll update the frontend later"
+     -> 5 sessions later: frontend still shows old data
+GOOD: Core fixed -> frontend + reports + validator in the SAME commit
+```
+
+**Why:** Core had 30 corrections but frontend/reports/docs stayed outdated for the entire session.
+**How to apply:** Each change to the core -> propagate to ALL consumers before committing.

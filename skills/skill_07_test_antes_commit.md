@@ -1,40 +1,43 @@
 ---
 name: test-antes-de-commit
-description: Antes de cada commit — verificar syntax, import, y al menos 1 caso de ejecución real. No commitear código que no compila.
+description: Before each commit — verify syntax, imports, and at least 1 real execution case. Never commit code that doesn't compile or run.
 type: feedback
-originSessionId: a0d34ba2-2a13-421f-b624-f0f12c1a7219
 ---
-# Test Antes de Commit
+# Test Before Commit
 
-## Aplica a: CUALQUIER proyecto de software
+## Applies to: ANY software project
 
-## Protocolo pre-commit
+## Pre-commit protocol
 ```bash
-# 1. Syntax check de cada archivo modificado
+# 1. Syntax check of each modified file
 python -c "import ast; ast.parse(open('file.py').read())"
+# Or for JS/TS: npx tsc --noEmit
+# Or for Rust: cargo check
 
 # 2. Import check
 python -c "from module import function"
+# Or: node -e "require('./module')"
 
-# 3. Smoke test (al menos 1 ejecución real)
-python -c "from motor import disenar; disenar(inputs_minimos)"
+# 3. Smoke test (at least 1 real execution)
+python -c "from app import main; main(minimal_inputs)"
+# Or: npm test -- --bail
 
-# 4. Si hay endpoint: curl real
+# 4. If there's an endpoint: real curl
 curl -s http://localhost:8000/endpoint
 ```
 
-## Anti-patrón: el "Commit y Veremos"
+## Anti-pattern: the "Commit and Pray"
 ```
-MAL: git commit → deploy → 500 Internal Server Error
-BIEN: syntax OK → import OK → smoke test OK → commit → deploy → curl OK
+BAD: git commit -> deploy -> 500 Internal Server Error
+GOOD: syntax OK -> import OK -> smoke test OK -> commit -> deploy -> curl OK
 ```
 
 ## Checklist
-- [ ] `ast.parse()` de cada .py modificado
-- [ ] Import de cada módulo modificado
-- [ ] Al menos 1 caso real ejecutado sin error
-- [ ] Si hay endpoints: probados con curl
-- [ ] Si hay frontend: `npm run build` sin errores
+- [ ] Syntax check of each modified file
+- [ ] Import/require of each modified module
+- [ ] At least 1 real case executed without error
+- [ ] If there are endpoints: tested with curl
+- [ ] If there's frontend: build completes without errors
 
-**Why:** Commits con UnboundLocalError, kwargs not defined, syntax errors en producción.
-**How to apply:** SIEMPRE antes de `git commit`. Sin excepciones.
+**Why:** Commits with UnboundLocalError, undefined variables, syntax errors reached production.
+**How to apply:** ALWAYS before `git commit`. No exceptions.

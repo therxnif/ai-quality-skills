@@ -1,33 +1,32 @@
 ---
 name: calibracion-datos-reales
-description: Todo output del sistema debe compararse contra al menos 1 caso real. Si el output no está en rango real → hay un bug. Aplica a cualquier motor de cálculo, ML, simulación.
+description: Every system output must be compared against at least 1 real-world case. If the output is out of real range, there is a bug. Applies to any computation engine, ML model, or simulation.
 type: feedback
-originSessionId: a0d34ba2-2a13-421f-b624-f0f12c1a7219
 ---
-# Calibración contra Datos Reales
+# Real Data Calibration
 
-## Aplica a: Cualquier sistema que produce valores numéricos (motores de cálculo, ML, simulaciones)
+## Applies to: Any system that produces numerical or measurable outputs (computation engines, ML, simulations, analytics)
 
-## Regla
-Cada módulo nuevo → comparar output con al menos 1 caso REAL documentado.
+## Rule
+Each new module -> compare output with at least 1 REAL documented case.
 
-## Rangos de referencia (ejemplo puentes):
-- Acero kg/m³ concreto: 150-350 (Amazonas real: 252)
-- Costo/m² tablero: $800-3000 (PROVIAS real: $1,500-2,500)
-- Drift sísmico: 0.1%-2.5%
-- Período fundamental: 0.3-3.0s
+## Example reference ranges (adapt to your domain):
+- API response time: 50-500ms (real benchmark: 120ms)
+- Compression ratio: 2x-10x (real test: 4.3x)
+- ML model accuracy: domain-dependent (published baseline: 0.87)
+- Cost estimate: within 20% of known reference
 
-## Protocolo
-1. Identificar caso real comparable (proyecto, paper, base de datos)
-2. Correr el sistema con los MISMOS inputs del caso real
-3. Comparar output vs real: ¿dentro de ±20%?
-4. Si fuera de rango → investigar la causa antes de continuar
+## Protocol
+1. Identify a comparable real case (project, paper, benchmark, database)
+2. Run the system with the SAME inputs as the real case
+3. Compare output vs real: within acceptable tolerance (e.g., +/-20%)?
+4. If out of range -> investigate the cause before continuing
 
-## Anti-patrón: el Ratio Imposible
+## Anti-pattern: the Impossible Ratio
 ```
-MAL: "metrado acero = 50 kg/m³" (sin comparar) → rho=0.004 vs real 0.031
-BIEN: "Amazonas real = 252 kg/m³, motor da 253 → OK (0.4% error)"
+BAD: "output value = 50" (without comparing) -> turns out real-world is 350 (7x off)
+GOOD: "Reference case = 252, our system gives 253 -> OK (0.4% error)"
 ```
 
-**Why:** Metrado de acero con factor 7x bajo por fallback incorrecto.
-**How to apply:** Antes de entregar output → ¿está en rango real? Si no → bug.
+**Why:** Output values were 7x lower than real-world references due to an incorrect fallback.
+**How to apply:** Before delivering output -> is it in real-world range? If not -> bug.

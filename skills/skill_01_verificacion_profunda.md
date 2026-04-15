@@ -1,28 +1,27 @@
 ---
 name: verificacion-profunda
-description: OBLIGATORIO antes de reportar resultados o decir que algo funciona. Aplica a TODO proyecto — SaaS, API, motor de cálculo, frontend, deploy.
+description: MANDATORY before reporting results or claiming something works. Applies to ANY software project — web apps, APIs, ML, games, mobile, CLI tools.
 type: feedback
-originSessionId: a0d34ba2-2a13-421f-b624-f0f12c1a7219
 ---
-# Verificación Profunda
+# Deep Verification
 
-## Aplica a: CUALQUIER proyecto de software
+## Applies to: ANY software project
 
-## 10 Reglas
+## 10 Rules
 
-1. NUNCA reportar sin ejecutar el código real
-2. NUNCA asumir que el módulo/ruta/dispatch correcto se ejecuta — TRAZAR
-3. NUNCA aceptar tests PASS sin verificar que los valores son reales (no hardcoded)
-4. NUNCA reportar score/porcentaje sin verificar el denominador
-5. Cada fix debe probarse con el CASO EXACTO que fallaba
-6. Cada valor numérico debe tener sentido (comparar con referencia real)
-7. NUNCA clasificar un fail como "conocido" — investigar y resolver
-8. Frontend = verificar visualmente en navegador, no solo build
-9. Deploy = curl al endpoint real en producción
-10. Reportes/docs = abrir y leer, no solo contar tamaño
+1. NEVER report without running the actual code
+2. NEVER assume the correct module/route/dispatch executed — TRACE it
+3. NEVER accept tests PASS without verifying values are real (not hardcoded)
+4. NEVER report score/percentage without verifying the denominator
+5. Each fix must be tested with the EXACT CASE that was failing
+6. Each numerical value must make sense (compare with real-world reference)
+7. NEVER classify a fail as "known" — investigate and resolve
+8. Frontend = verify visually in the browser, not just build
+9. Deploy = curl the real endpoint in production
+10. Reports/docs = open and read, not just check file size
 
-## Frases PROHIBIDAS sin verificar
-"funciona", "100%", "0 errores", "issue conocido", "debería funcionar", "ya se fixeó", "todo actualizado", "deploy exitoso"
+## BANNED phrases without verification
+"works", "100%", "0 errors", "known issue", "should work", "already fixed", "all updated", "deploy successful"
 
-**Why:** 45 sesiones reportando éxito falso por verificación superficial.
-**How to apply:** Ejecutar checklist COMPLETO antes de cada claim. Sin excepciones.
+**Why:** 45+ sessions of reporting false success due to shallow verification.
+**How to apply:** Run the COMPLETE checklist before each claim. No exceptions.

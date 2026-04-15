@@ -1,32 +1,31 @@
 ---
 name: norma-referencia-primero
-description: Antes de agregar cualquier check, validación o fórmula — leer la norma/spec/docs oficial. No inventar. No copiar de otro módulo sin verificar que aplica.
+description: Before adding any check, validation, or formula — read the official spec/standard/docs. Do not invent. Do not copy from another module without verifying it applies.
 type: feedback
-originSessionId: a0d34ba2-2a13-421f-b624-f0f12c1a7219
 ---
-# Norma/Referencia Primero
+# Standard/Reference First
 
-## Aplica a: Cualquier sistema que implementa estándares (AASHTO, ISO, OWASP, RFC, etc.)
+## Applies to: Any system that implements standards, specs, or documented rules (RFCs, ISO, OWASP, W3C, language specs, API docs, etc.)
 
-## Regla
-Antes de escribir UNA línea de código que implementa una regla:
-1. ¿De qué norma/spec viene? (artículo exacto)
-2. ¿Aplica a ESTE tipo de componente? (RC ≠ acero ≠ PS)
-3. ¿La fórmula es correcta en las unidades del sistema? (SI vs imperial)
-4. ¿Hay condiciones de aplicabilidad? (solo para X, no para Y)
+## Rule
+Before writing ONE line of code that implements a rule:
+1. What spec/standard does it come from? (exact section)
+2. Does it apply to THIS type of component? (different types have different rules)
+3. Is the formula correct in the system's units/types?
+4. Are there applicability conditions? (only for X, not for Y)
 
-## Anti-patrón: el Copy-Paste Normativo
+## Anti-pattern: the Normative Copy-Paste
 ```
-MAL: "Voy a agregar h/bw ≤ 6 a todos los cajones"
-     → §5.7.2 es para RC, no aplica a acero §6.11
-BIEN: "¿Qué artículo aplica a cajón METÁLICO? → §6.10.2: D/tw ≤ 150"
+BAD: "I'll add this validation to all handlers"
+     -> The rule from one domain doesn't apply to another
+GOOD: "What spec applies to THIS specific type? -> Section 4.2: different limit"
 ```
 
 ## Checklist
-- [ ] Cité el artículo exacto de la norma
-- [ ] Verifiqué que aplica a ESTE tipo de componente
-- [ ] Las unidades son correctas (MPa no ksi, m no ft)
-- [ ] Las condiciones de aplicabilidad se cumplen
+- [ ] I cited the exact section of the spec/standard
+- [ ] I verified it applies to THIS type of component
+- [ ] The units/types are correct
+- [ ] The applicability conditions are met
 
-**Why:** Check de RC aplicado a acero durante 10+ sesiones.
-**How to apply:** LEER el artículo antes de codear. No copiar de otro módulo.
+**Why:** Rules from one domain were applied to another for 10+ sessions without anyone noticing.
+**How to apply:** READ the spec section before coding. Never copy from another module blindly.

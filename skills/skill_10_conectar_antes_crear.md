@@ -1,44 +1,43 @@
 ---
 name: conectar-antes-de-crear
-description: No crear features nuevas hasta que las existentes estén CONECTADAS al pipeline y verificadas. 1 feature conectada > 10 features sueltas.
+description: Do not create new features until existing ones are CONNECTED to the pipeline and verified. 1 connected feature > 10 disconnected features.
 type: feedback
-originSessionId: a0d34ba2-2a13-421f-b624-f0f12c1a7219
 ---
-# Conectar Antes de Crear
+# Connect Before Create
 
-## Aplica a: Cualquier proyecto con múltiples módulos/features
+## Applies to: Any project with multiple modules/features
 
-## Regla
-Antes de crear algo nuevo, verificar:
-1. ¿Las features existentes están CONECTADAS al pipeline?
-2. ¿Se pueden usar desde el endpoint/UI?
-3. ¿Tienen tests?
-4. ¿Están documentadas?
+## Rule
+Before creating something new, verify:
+1. Are existing features CONNECTED to the pipeline?
+2. Can they be used from the endpoint/UI?
+3. Do they have tests?
+4. Are they documented?
 
-Si la respuesta es NO → CONECTAR primero, crear después.
+If the answer is NO -> CONNECT first, create later.
 
-## Anti-patrón: el Módulo Fantasma
+## Anti-pattern: the Phantom Module
 ```
-MAL: "Sesión 44: construí 24 módulos nuevos (Intelligence Engine, KG, RL, CO2...)"
-     → Ninguno conectado al pipeline
-     → El usuario no puede usarlos
-     → Dan falsa sensación de progreso
-BIEN: "Conecté CO2 al disenar_puente(). Ahora cada puente tiene huella de carbono."
-     → 1 feature REAL en producción
-```
-
-## Métrica de progreso real
-```
-FALSO progreso: "140K líneas de código, 24 módulos"
-REAL progreso: "7 tipologías funcionan end-to-end, 100 memorias generadas correctamente"
+BAD: "Built 24 new features (analytics engine, knowledge graph, RL optimizer...)"
+     -> None connected to the pipeline
+     -> Users can't access any of them
+     -> Gives a false sense of progress
+GOOD: "Connected the analytics module to the main API. Users now get insights on every request."
+     -> 1 REAL feature in production
 ```
 
-## Checklist antes de crear algo nuevo
-- [ ] ¿Lo existente funciona end-to-end?
-- [ ] ¿Hay features desconectadas que debería conectar primero?
-- [ ] ¿El usuario puede usar la feature desde la UI/API?
-- [ ] ¿Tiene tests que corren?
-- [ ] ¿Está en el deploy de producción?
+## Metric of real progress
+```
+FALSE progress: "140K lines of code, 24 modules"
+REAL progress: "7 features work end-to-end, 100 reports generated correctly"
+```
 
-**Why:** 24 módulos construidos, 0 conectados. Prioridad absoluta era CONECTAR.
-**How to apply:** Preguntar "¿está conectado?" antes de crear. Si no → conectar primero.
+## Checklist before creating something new
+- [ ] Does what exists work end-to-end?
+- [ ] Are there disconnected features that should be connected first?
+- [ ] Can the user access the feature from the UI/API?
+- [ ] Does it have tests that run?
+- [ ] Is it in the production deploy?
+
+**Why:** 24 features built, 0 connected to the pipeline. Absolute priority was to CONNECT.
+**How to apply:** Ask "is it connected?" before creating. If not -> connect first.

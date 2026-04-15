@@ -1,31 +1,30 @@
 # AI Quality Skills
 
-**Quality gate for AI coding agents.** 10 skills + MCP verification server that prevent AI from reporting false success.
+**Quality gate for AI coding agents.** 10 skills that prevent AI from reporting false success.
 
-Born from 45 sessions of real production errors in a bridge engineering SaaS where the AI reported "99.78% success" while using the wrong computation module for an entire product line.
+Born from real production errors where an AI agent reported "99% success" for months — while using the wrong module entirely. The real score was 34%.
 
 ## The Problem
 
-AI coding agents (Claude Code, Cursor, Copilot) are great at writing code but terrible at verifying their own work:
+AI coding agents are great at writing code but terrible at verifying their own work:
 
-- They report "100% PASS" without checking if the right module executed
-- They classify failures as "known issues" instead of fixing them
-- They commit code with syntax errors
-- They claim "deploy successful" without testing the endpoint
-- They generate beautiful reports with wrong data
+- Report "100% PASS" without checking if the right code executed
+- Classify failures as "known issues" instead of fixing them
+- Commit code with syntax errors
+- Claim "deploy successful" without testing the endpoint
+- Generate beautiful reports with wrong data
+- Train ML on corrupted datasets
 
-## The Solution
-
-10 mandatory skills that force verification before any success claim:
+## 10 Skills
 
 | # | Skill | Prevents |
 |---|-------|----------|
 | 1 | **Deep Verification** | Reporting success without running code |
-| 2 | **Dispatch Traceability** | Wrong module executing silently |
+| 2 | **Dispatch Traceability** | Wrong module executing silently (routing bugs) |
 | 3 | **Standard Reference First** | Applying wrong rules to wrong components |
 | 4 | **Real Data Calibration** | Outputs that don't match reality |
 | 5 | **Complete Auto-Adjust** | Fixing one thing while breaking another |
-| 6 | **Instant Propagation** | Core changes not reaching consumers |
+| 6 | **Instant Propagation** | Core changes not reaching consumers (UI, reports, tests) |
 | 7 | **Test Before Commit** | Broken code in production |
 | 8 | **Clean Dataset** | ML trained on corrupted data |
 | 9 | **Report as Auditor** | Documents that echo errors instead of catching them |
@@ -35,52 +34,51 @@ AI coding agents (Claude Code, Cursor, Copilot) are great at writing code but te
 
 ### Claude Code
 ```bash
-# Copy skills to your Claude Code skills directory
 cp skills/*.md ~/.claude/skills/
-
-# Add MCP verification server
-# Add to ~/.mcp.json:
-{
-  "mcpServers": {
-    "quality-gate": {
-      "command": "python",
-      "args": ["path/to/mcp/mcp_verificador_integridad.py"]
-    }
-  }
-}
 ```
 
-### Any AI Agent
-Copy the rules from `skills/` into your agent's system prompt or configuration file (CLAUDE.md, .cursorrules, etc.)
+### Cursor / Other AI Agents
+Copy the content from `skills/` into your `.cursorrules`, system prompt, or agent configuration file.
 
-## MCP Verification Server
+### Any Project
+Add the rules to your project's `CLAUDE.md`, `AGENTS.md`, or equivalent configuration.
 
-The MCP server provides 5 tools that act as a quality gate:
+## Key Rules
 
-| Tool | What it does |
-|------|-------------|
-| `verificar_dispatch` | Checks that each input routes to the correct module |
-| `verificar_checks_reales` | Detects hardcoded/fake test results |
-| `verificar_pipeline_completo` | Runs end-to-end pipeline for all configurations |
-| `verificar_valores_fisicos` | Validates outputs against physical/real-world ranges |
-| `auditoria_obligatoria` | Runs ALL checks — must pass before claiming success |
+**Never say "it works" without:**
+- [ ] Running the actual code (not assuming)
+- [ ] Tracing that the correct module executed (not the default/fallback)
+- [ ] Verifying test values are real (not hardcoded `ok=True`)
+- [ ] Comparing outputs against real-world data
+- [ ] Testing the exact case that was failing
+- [ ] Checking the full pipeline end-to-end
 
-## Origin Story
+**Banned phrases (without verification):**
+- "it works"
+- "100% PASS"
+- "0 errors"
+- "known issue"
+- "should work"
+- "already fixed"
+- "deploy successful"
 
-These skills come from a real SaaS project (BridgePredict IA) where:
+## Why This Exists
 
-- A missing `.lower()` in a module dispatcher caused one product line (T07 steel box girder) to use the wrong computation engine (RC concrete) for **36 sessions**
-- The AI reported "99.78% score on 3,003 bridges" — all from the **wrong module**
-- When the correct module was finally used, the pass rate dropped from 99.78% to 34%
-- 30+ AASHTO engineering corrections were needed
-- 14 reference documents (NCHRP, WSDOT, Caltrans, FHWA) had to be read to find the errors
+Every skill in this repo exists because of a specific, documented failure where an AI agent:
 
-Every skill in this repo exists because of a specific, documented production failure.
+1. Used the wrong computation module for 36 sessions (missing `.lower()` in dispatch)
+2. Reported 99.78% success rate — from the wrong module's checks
+3. Applied rules from one domain to another (concrete rules on steel structures)
+4. Generated 100+ reports with beautiful formatting but wrong data
+5. Built 24 new features without connecting any to the pipeline
+6. Trained ML models on datasets generated by the buggy engine
+
+Total cost: months of work invalidated.
 
 ## License
 
-MIT — Use freely. If it saves you from reporting false success to your users, it was worth it.
+MIT
 
 ## Author
 
-[therxnif](https://github.com/therxnif) — SeismoVant SAC, Lima, Peru
+[@therxnif](https://github.com/therxnif)
